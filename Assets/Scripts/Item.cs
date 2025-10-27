@@ -11,7 +11,7 @@ public class Item : MonoBehaviour
     public float offsetY = 0f;
     public GameObject pickUpSound;
 
-    private void Start()
+    void Start()
     {
         transform.Translate(new Vector3(offsetX, offsetY, 0));
     }
@@ -22,9 +22,9 @@ public class Item : MonoBehaviour
         {
             StaticClass.score += addScore;
 
-            if(addHealth > 0)
+            if (addHealth > 0)
             {
-                if(PlayerScript.hp >= 3)
+                if (PlayerScript.hp >= 3)
                 {
                     StaticClass.lives++;
                 }
@@ -32,7 +32,7 @@ public class Item : MonoBehaviour
                 PlayerScript.hp += addHealth;
             }
             
-            if(PlayerScript.weaponUpgrade < upgrade)
+            if (PlayerScript.weaponUpgrade < upgrade)
             {
                 PlayerScript.weaponUpgrade = upgrade;
             }

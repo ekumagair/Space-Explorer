@@ -9,7 +9,7 @@ public class AppearOnDifficulty : MonoBehaviour
 
     void Start()
     {
-        if(normalMode == false && StaticClass.hardMode == false)
+        if (normalMode == false && StaticClass.hardMode == false)
         {
             Destroy(gameObject);
         }

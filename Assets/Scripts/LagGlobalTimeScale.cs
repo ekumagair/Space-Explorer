@@ -5,7 +5,7 @@ using UnityEngine;
 public class LagGlobalTimeScale : MonoBehaviour
 {
     public static bool pause = false;
-    AudioSource _as;
+    private AudioSource _as;
 
     void Start()
     {
@@ -17,7 +17,6 @@ public class LagGlobalTimeScale : MonoBehaviour
     void Update()
     {
         // Lag
-
         if (pause == false)
         {
             if (StaticClass.lagObjs <= 5)
@@ -43,7 +42,6 @@ public class LagGlobalTimeScale : MonoBehaviour
         }
 
         // Pause
-
         if (Input.GetKeyDown(KeyCode.Return))
         {
             _as.Play();

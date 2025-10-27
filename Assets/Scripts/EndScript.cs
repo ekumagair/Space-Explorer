@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EndScript : MonoBehaviour
 {
-    private void Start()
+    void Start()
     {
         Time.timeScale = 1.0f;
         LagGlobalTimeScale.pause = false;

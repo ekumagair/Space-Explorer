@@ -8,12 +8,12 @@ public class Cannon : MonoBehaviour
     public int direction = -1;
     public GameObject shotSound;
 
-    private void Start()
+    void Start()
     {
         transform.Translate(new Vector3(0.5f, -0.5f, 0));
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "MainCamera")
         {
@@ -25,9 +25,12 @@ public class Cannon : MonoBehaviour
         }
     }
 
-    IEnumerator Shoot(float t)
+    private IEnumerator Shoot(float t)
     {
-        Debug.Log("CannonShot");
+        if (StaticClass.debug == true)
+        {
+            Debug.Log("CannonShot");
+        }
 
         yield return new WaitForSeconds(t / StaticClass.enemySpeedMult);
 

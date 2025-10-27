@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FlashText : MonoBehaviour
 {
     public float time;
-    Text txt;
+    private Text txt;
 
     void Start()
     {
@@ -14,9 +14,10 @@ public class FlashText : MonoBehaviour
         StartCoroutine(Flash(time));
     }
 
-    IEnumerator Flash(float t)
+    private IEnumerator Flash(float t)
     {
         yield return new WaitForSeconds(t);
+
         txt.enabled = !txt.enabled;
         StartCoroutine(Flash(t));
     }

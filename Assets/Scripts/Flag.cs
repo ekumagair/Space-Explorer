@@ -8,9 +8,9 @@ public class Flag : MonoBehaviour
     public GameObject touchSound; // Optional.
     public Sprite touched;
     public bool playSound;
-    GameObject levelP;
 
-    SpriteRenderer _sr;
+    private GameObject levelP;
+    private SpriteRenderer _sr;
 
     void Start()
     {
@@ -20,13 +20,13 @@ public class Flag : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player" && PlayerScript.completedLevel == false)
+        if (collision.gameObject.tag == "Player" && PlayerScript.completedLevel == false)
         {
             StartCoroutine(Completed());
         }
     }
 
-    IEnumerator Completed()
+    private IEnumerator Completed()
     {
         PlayerScript.completedLevel = true;
         StaticClass.passedCheckpoint = false;

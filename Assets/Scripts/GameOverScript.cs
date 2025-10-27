@@ -11,12 +11,14 @@ public class GameOverScript : MonoBehaviour
         LagGlobalTimeScale.pause = false;
         PlayerPrefs.SetInt("highScore", StaticClass.highScore);
         PlayerPrefs.Save();
+
         StartCoroutine(GoToMenu());
     }
 
-    IEnumerator GoToMenu()
+    private IEnumerator GoToMenu()
     {
         yield return new WaitForSeconds(3.5f);
+
         SceneManager.LoadScene("SpaceTitle");
     }
 }

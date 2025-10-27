@@ -8,7 +8,8 @@ public class Projectile : MonoBehaviour
     public int direction = 1;
     public bool vertical = false;
     public bool belongsToPlayer = false;
-    float mult = 1.0f;
+
+    private float mult = 1.0f;
 
     void Awake()
     {
@@ -24,7 +25,7 @@ public class Projectile : MonoBehaviour
         StartCoroutine(Move());
     }
 
-    IEnumerator Move()
+    private IEnumerator Move()
     {
         yield return new WaitForSeconds(0.05f);
 

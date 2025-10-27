@@ -9,8 +9,8 @@ public class HUD : MonoBehaviour
     public Text levelText;
     public Text livesText;
 
-    int extraZero;
-    string extraZeroText;
+    private int extraZero;
+    private string extraZeroText;
 
     void Start()
     {
@@ -24,14 +24,13 @@ public class HUD : MonoBehaviour
 
         for (int i = 0; i < extraZero; i++)
         {
-            extraZeroText = extraZeroText + "0";
+            extraZeroText += "0";
         }
 
         score.text = "SCORE: " + extraZeroText + StaticClass.score.ToString();
         livesText.text = "LIVES: " + StaticClass.lives;
 
         // Screenshot
-
         if (Input.GetKeyDown(KeyCode.P) && StaticClass.debug == true)
         {
             ScreenCapture.CaptureScreenshot("space explorer " + Random.Range(0, 10000) + ".png");

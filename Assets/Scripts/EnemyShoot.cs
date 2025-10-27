@@ -11,8 +11,9 @@ public class EnemyShoot : MonoBehaviour
     public bool alwaysShootDown = false;
     public GameObject shot;
     public GameObject shotSound;
-    EnemyWalk walkScript;
-    Animator _animator;
+
+    private EnemyWalk walkScript;
+    private Animator _animator;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
-    IEnumerator Shoot()
+    private IEnumerator Shoot()
     {
         if (_animator != null && hasShootAnimation == true)
         {

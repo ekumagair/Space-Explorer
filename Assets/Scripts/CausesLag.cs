@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CausesLag : MonoBehaviour
 {
-    SpriteRenderer _sr;
-    Color myColor;
-    float a;
+    private SpriteRenderer _sr;
+    private Color myColor;
+    private float a;
 
-    bool added = false;
+    private bool added = false;
 
     void Awake()
     {
@@ -18,7 +18,7 @@ public class CausesLag : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "MainCamera" && added == false)
+        if (collision.gameObject.tag == "MainCamera" && added == false)
         {
             StaticClass.lagObjs++;
 
@@ -29,7 +29,7 @@ public class CausesLag : MonoBehaviour
 
             added = true;
         }
-        else if(collision.gameObject.tag == "BarrierLeft" && tag != "Player")
+        else if (collision.gameObject.tag == "BarrierLeft" && tag != "Player")
         {
             Destroy(gameObject);
         }

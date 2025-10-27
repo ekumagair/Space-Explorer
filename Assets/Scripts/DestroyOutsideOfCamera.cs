@@ -8,7 +8,7 @@ public class DestroyOutsideOfCamera : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "MainCamera" && active)
+        if (collision.gameObject.tag == "MainCamera" && active)
         {
             Destroy(gameObject);
         }

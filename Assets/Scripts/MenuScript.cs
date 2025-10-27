@@ -9,10 +9,9 @@ public class MenuScript : MonoBehaviour
     public Text highScoreText;
     public GameObject soundDefeat;
 
-    int extraZero;
-    string extraZeroText;
-
-    float deleteTime = 0;
+    private int extraZero;
+    private string extraZeroText;
+    private float deleteTime = 0;
 
     private void Start()
     {
@@ -25,6 +24,7 @@ public class MenuScript : MonoBehaviour
         StaticClass.lagObjs = 0;
         StaticClass.lagLevel = 0;
         LagGlobalTimeScale.pause = false;
+
         deleteTime = 0;
 
         if (PlayerPrefs.HasKey("highScore"))
@@ -38,26 +38,23 @@ public class MenuScript : MonoBehaviour
     void Update()
     {
         // Start
-
-        if(Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("Level" + StaticClass.currentLevel);
         }
 
         // Quit
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
 
         // Delete
-
-        if(Input.GetKey(KeyCode.Delete))
+        if (Input.GetKey(KeyCode.Delete))
         {
             deleteTime += Time.deltaTime;
 
-            if(deleteTime > 3)
+            if (deleteTime > 3)
             {
                 deleteTime = 0;
                 StaticClass.highScore = 0;
@@ -72,7 +69,6 @@ public class MenuScript : MonoBehaviour
         }
         
         // DEBUG
-
         if (Input.GetKeyDown(KeyCode.H) && StaticClass.debug == true)
         {
             StaticClass.hardMode = true;

@@ -9,13 +9,13 @@ public class EnemyWalk : MonoBehaviour
     public bool active = false;
     public bool turnAroundLedges = true;
     public bool mirrorWhenTurning = false;
-    bool turning;
+    private bool turning;
     public LayerMask solidMask;
 
-    SpriteRenderer _sr;
-    Collider2D _collider;
-    RaycastHit2D solidHit;
-    bool wallLeft, wallRight = false;
+    private SpriteRenderer _sr;
+    private Collider2D _collider;
+    private RaycastHit2D solidHit;
+    private bool wallLeft, wallRight = false;
 
     void Start()
     {
@@ -44,7 +44,7 @@ public class EnemyWalk : MonoBehaviour
         if (active && Time.timeScale > 0)
         {
             solidHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x, _collider.bounds.size.y * 0.65f), 0, transform.right, _collider.bounds.size.x / 4, solidMask);
-            if(solidHit.collider == null)
+            if (solidHit.collider == null)
             {
                 wallRight = false;
             }
@@ -67,7 +67,7 @@ public class EnemyWalk : MonoBehaviour
             {
                 transform.Translate(new Vector3(speed * direction * StaticClass.enemySpeedMult * Time.deltaTime, 0, 0));
             }
-            else if(direction > 0 && wallRight)
+            else if (direction > 0 && wallRight)
             {
                 Turn();
             }
@@ -104,7 +104,7 @@ public class EnemyWalk : MonoBehaviour
         }
     }
 
-    IEnumerator TurnCoroutine()
+    private IEnumerator TurnCoroutine()
     {
         turning = true;
 

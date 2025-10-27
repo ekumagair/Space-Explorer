@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    GameObject player;
+    private GameObject player;
 
     void Start()
     {
@@ -13,7 +13,7 @@ public class Checkpoint : MonoBehaviour
 
     void Update()
     {
-        if(player.transform.position.x > transform.position.x && StaticClass.passedCheckpoint == false && PlayerScript.completedLevel == false && PlayerScript.isAlive)
+        if (player.transform.position.x > transform.position.x && StaticClass.passedCheckpoint == false && PlayerScript.completedLevel == false && PlayerScript.isAlive)
         {
             StaticClass.passedCheckpoint = true;
             StaticClass.checkpointX = transform.position.x;

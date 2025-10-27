@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class HpIcon : MonoBehaviour
 {
-    Image img;
     public int number;
+
+    private Image img;
 
     void Start()
     {
@@ -15,7 +16,7 @@ public class HpIcon : MonoBehaviour
 
     void Update()
     {
-        if(PlayerScript.hp < number)
+        if (PlayerScript.hp < number)
         {
             img.enabled = false;
         }

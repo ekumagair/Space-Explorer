@@ -7,9 +7,9 @@ public class Boss : MonoBehaviour
     public int direction = -1;
     public GameObject explosion;
     public GameObject win;
-    GameObject player;
+    private GameObject player;
 
-    bool started = false;
+    private bool started = false;
     public GameObject shot;
     public GameObject shotSound;
     public GameObject deathSound;
@@ -22,7 +22,6 @@ public class Boss : MonoBehaviour
         StartCoroutine(IsActive());
         started = false;
     }
-
 
     void Update()
     {
@@ -39,7 +38,7 @@ public class Boss : MonoBehaviour
 
             transform.Translate(5 * transform.up * direction * StaticClass.enemySpeedMult * Time.deltaTime);
 
-            if(GetComponent<EnemyHealth>().health <= 0)
+            if (GetComponent<EnemyHealth>().health <= 0)
             {
                 Instantiate(explosion, transform.position, transform.rotation);
                 Instantiate(win, player.transform.position, player.transform.rotation);
@@ -49,21 +48,21 @@ public class Boss : MonoBehaviour
         }
     }
 
-    IEnumerator IsActive()
+    private IEnumerator IsActive()
     {
         yield return new WaitForSeconds(2.5f);
+
         StaticClass.lagObjs += 1;
         StartCoroutine(Shoot());
         started = true;
     }
 
-    IEnumerator Shoot()
+    private IEnumerator Shoot()
     {
         Instantiate(shotSound, transform.position, transform.rotation);
 
         var shotI = Instantiate(shot, transform.position, transform.rotation);
         shotI.GetComponent<Projectile>().direction = -1;
-
 
         yield return new WaitForSeconds(fireInterval / StaticClass.enemySpeedMult);
 

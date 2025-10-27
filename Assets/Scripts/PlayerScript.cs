@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 public class PlayerScript : MonoBehaviour
 {
     public float speedX;
-    float moveX;
+    private float moveX;
 
     public float jumpTimeDefault;
-    float jumpTime;
+    private float jumpTime;
     public float forceYDefault;
     public AudioClip jumpSound;
     public AudioClip damageSound;
@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour
     {
         // Movement
 
-        if(isAlive == true && completedLevel == false && Time.timeScale > 0)
+        if (isAlive == true && completedLevel == false && Time.timeScale > 0)
         {
             moveX = Input.GetAxisRaw("Horizontal") * speedX * Time.deltaTime;
         }
@@ -99,7 +99,7 @@ public class PlayerScript : MonoBehaviour
 
         rayHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x * 0.52f, _collider.bounds.size.y * 0.925f), 0, transform.right, 0.4f, solidMask);
 
-        if(rayHit.collider != null)
+        if (rayHit.collider != null)
         {
             wallRight = true;
         }
@@ -129,11 +129,11 @@ public class PlayerScript : MonoBehaviour
             _sr.flipX = false;
             _animator.SetBool("MovingX", true);
         }
-        else if(moveX == 0)
+        else if (moveX == 0)
         {
             _animator.SetBool("MovingX", false);
         }
-        else if(moveX < 0)
+        else if (moveX < 0)
         {
             _sr.flipX = true;
             _animator.SetBool("MovingX", true);
@@ -143,7 +143,7 @@ public class PlayerScript : MonoBehaviour
 
         rayHit = Physics2D.CircleCast(transform.position, 0.36f, -transform.up, _collider.bounds.size.y * 0.65f, solidMask);
 
-        if(rayHit.collider != null)
+        if (rayHit.collider != null)
         {
             isOnGround = true;
         }
@@ -152,7 +152,7 @@ public class PlayerScript : MonoBehaviour
             isOnGround = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.X) && isOnGround && isAlive && completedLevel == false && hitCeiling == false && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.X) && isOnGround && isAlive && completedLevel == false && hitCeiling == false && Time.timeScale > 0)
         {
             jumpTime = jumpTimeDefault;
             Sound(jumpSound);
@@ -164,14 +164,14 @@ public class PlayerScript : MonoBehaviour
 
         rayHit = Physics2D.CircleCast(transform.position, 0.365f, transform.up, _collider.bounds.size.y * 0.33f, solidMask);
 
-        if(rayHit.collider != null)
+        if (rayHit.collider != null)
         {
             hitCeiling = true;
 
             //_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Abs(_rb.velocity.y) * -1f);
             _rb.velocity = new Vector2(_rb.velocity.x, -6f);
         }
-        else if(Input.GetKey(KeyCode.X) == false)
+        else if (Input.GetKey(KeyCode.X) == false)
         {
             hitCeiling = false;
         }
@@ -185,7 +185,7 @@ public class PlayerScript : MonoBehaviour
 
         // Test
 
-        if(Input.GetKeyDown(KeyCode.G) && StaticClass.debug == true)
+        if (Input.GetKeyDown(KeyCode.G) && StaticClass.debug == true)
         {
             Instantiate(lagTest, gameObject.transform.position, gameObject.transform.rotation);
         }
@@ -208,12 +208,12 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(Defeat());
         }
 
-        if(transform.position.y < -8)
+        if (transform.position.y < -8)
         {
             hp = 0;
         }
 
-        if(hp > 3)
+        if (hp > 3)
         {
             hp = 3;
         }
@@ -242,11 +242,11 @@ public class PlayerScript : MonoBehaviour
     {
         jumpTime -= Time.deltaTime;
 
-        if(jumpTime > 0)
+        if (jumpTime > 0)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, forceYDefault);
 
-            if(Input.GetKey(KeyCode.X) == false || hitCeiling == true)
+            if (Input.GetKey(KeyCode.X) == false || hitCeiling == true)
             {
                 jumpTime = 0;
             }
@@ -268,10 +268,9 @@ public class PlayerScript : MonoBehaviour
             Sound(fire2);
         }
 
-
         pr.GetComponent<DestroyOutsideOfCamera>().active = true;
 
-        if(_sr.flipX == true)
+        if (_sr.flipX == true)
         {
             pr.GetComponent<Projectile>().direction = -1;
         }
@@ -319,7 +318,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Player took damage.
-    IEnumerator Damage(int amount, int seconds)
+    private IEnumerator Damage(int amount, int seconds)
     {
         invulnerability = true;
         Sound(damageSound);
@@ -349,7 +348,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Ignore collision with GameObject "obj" for X seconds.
-    IEnumerator IgnoreCollision(GameObject obj, int seconds)
+    private IEnumerator IgnoreCollision(GameObject obj, int seconds)
     {
         Physics2D.IgnoreCollision(_collider, obj.GetComponent<Collider2D>(), true);
 
@@ -362,7 +361,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Player dies.
-    IEnumerator Defeat()
+    private IEnumerator Defeat()
     {
         isAlive = false;
         _collider.enabled = false;
@@ -383,7 +382,7 @@ public class PlayerScript : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
 
-        if(StaticClass.lives > 0)
+        if (StaticClass.lives > 0)
         {
             SceneManager.LoadScene(sceneName);
         }

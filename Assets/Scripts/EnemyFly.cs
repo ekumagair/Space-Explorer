@@ -6,9 +6,9 @@ public class EnemyFly : MonoBehaviour
 {
     public float speed;
     public float offsetY = -0.5f;
-    bool active = false;
+    private bool active = false;
 
-    private void Start()
+    void Start()
     {
         active = false;
         transform.Translate(new Vector3(0, offsetY, 0));
@@ -26,9 +26,9 @@ public class EnemyFly : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
-        if(active)
+        if (active)
         {
             transform.Translate(-transform.right * speed * StaticClass.enemySpeedMult * Time.deltaTime);
         }

@@ -13,14 +13,19 @@ public class CheatCode : MonoBehaviour
     public KeyCode[] buttons;
     public int currentButton;
 
+    private AudioSource _as;
+
     void Start()
     {
+        _as = GetComponent<AudioSource>();
+
         currentButton = 0;
     }
 
     void OnGUI()
     {
         Event e = Event.current;
+
         if (e.isKey && Event.current.type == EventType.KeyUp)
         {
             if (StaticClass.debug == true)
@@ -28,11 +33,11 @@ public class CheatCode : MonoBehaviour
                 Debug.Log("Pressed " + e.keyCode);
             }
 
-            if(buttons[currentButton] == e.keyCode)
+            if (buttons[currentButton] == e.keyCode)
             {
                 currentButton++;
 
-                if(currentButton == buttons.Length)
+                if (currentButton == buttons.Length)
                 {
                     if (StaticClass.debug == true)
                     {
@@ -41,27 +46,32 @@ public class CheatCode : MonoBehaviour
 
                     currentButton = 0;
 
-                    if(cheat_extraLives == true)
+                    if (cheat_extraLives == true)
                     {
                         StaticClass.lives = 30;
                     }
-                    if(cheat_continue == true)
+                    if (cheat_continue == true)
                     {
                         StaticClass.score = 0;
                         StaticClass.lives = 3;
                         SceneManager.LoadScene("Level" + StaticClass.currentLevel);
                     }
-                    if(cheat_weapon == true)
+                    if (cheat_weapon == true)
                     {
                         PlayerScript.weaponUpgrade = 1;
                     }
 
-                    if(playSound == true)
+                    if (playSound == true)
                     {
-                        GetComponent<AudioSource>().Play();
+                        if (_as == null)
+                        {
+                            _as = GetComponent<AudioSource>();
+                        }
+
+                        _as.Play();
                     }
 
-                    if(once == true)
+                    if (once == true)
                     {
                         cheat_extraLives = false;
                         cheat_continue = false;

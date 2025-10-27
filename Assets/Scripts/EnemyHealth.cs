@@ -10,7 +10,8 @@ public class EnemyHealth : MonoBehaviour
 
     public GameObject deathSoundObj;
     public GameObject damageSoundObj;
-    GameObject lastShot;
+
+    private GameObject lastShot = null;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
