@@ -9,21 +9,21 @@ public class EnemyWalk : MonoBehaviour
     public bool active = false;
     public bool turnAroundLedges = true;
     public bool mirrorWhenTurning = false;
-    private bool turning;
     public LayerMask solidMask;
 
+    private bool _turning;
     private SpriteRenderer _sr;
     private Collider2D _collider;
     private RaycastHit2D solidHit;
-    private bool wallLeft, wallRight = false;
+    private bool _wallLeft, _wallRight = false;
 
     void Start()
     {
         _sr = GetComponent<SpriteRenderer>();
         _collider = GetComponent<Collider2D>();
-        wallLeft = false;
-        wallRight = false;
-        turning = false;
+        _wallLeft = false;
+        _wallRight = false;
+        _turning = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -46,38 +46,38 @@ public class EnemyWalk : MonoBehaviour
             solidHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x, _collider.bounds.size.y * 0.65f), 0, transform.right, _collider.bounds.size.x / 4, solidMask);
             if (solidHit.collider == null)
             {
-                wallRight = false;
+                _wallRight = false;
             }
             else if (direction > 0)
             {
-                wallRight = true;
+                _wallRight = true;
             }
 
             solidHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x, _collider.bounds.size.y * 0.65f), 0, -transform.right, _collider.bounds.size.x / 4, solidMask);
             if (solidHit.collider == null)
             {
-                wallLeft = false;
+                _wallLeft = false;
             }
             else if (direction < 0)
             {
-                wallLeft = true;
+                _wallLeft = true;
             }
 
-            if (wallLeft == false && wallRight == false)
+            if (_wallLeft == false && _wallRight == false)
             {
                 transform.Translate(new Vector3(speed * direction * StaticClass.enemySpeedMult * Time.deltaTime, 0, 0));
             }
-            else if (direction > 0 && wallRight)
+            else if (direction > 0 && _wallRight)
             {
                 Turn();
             }
-            else if (direction < 0 && wallLeft)
+            else if (direction < 0 && _wallLeft)
             {
                 Turn();
             }
 
             solidHit = Physics2D.Raycast(transform.position, -transform.up, _collider.bounds.size.y * 0.6f, solidMask);
-            if (solidHit.collider == null && turnAroundLedges && wallLeft == false && wallRight == false)
+            if (solidHit.collider == null && turnAroundLedges && _wallLeft == false && _wallRight == false)
             {
                 Turn();
             }
@@ -86,12 +86,13 @@ public class EnemyWalk : MonoBehaviour
 
     public void Turn()
     {
+        /*
         if (StaticClass.debug == true)
         {
             Debug.Log("Turn");
-        }
+        }*/
 
-        if (turning == false && Time.timeScale > 0)
+        if (_turning == false && Time.timeScale > 0)
         {
             direction *= -1;
             transform.Translate(new Vector3(20 * direction * Time.deltaTime, 0, 0));
@@ -106,10 +107,10 @@ public class EnemyWalk : MonoBehaviour
 
     private IEnumerator TurnCoroutine()
     {
-        turning = true;
+        _turning = true;
 
         yield return new WaitForSeconds(0.1f);
 
-        turning = false;
+        _turning = false;
     }
 }

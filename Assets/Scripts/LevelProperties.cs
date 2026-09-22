@@ -6,23 +6,23 @@ public class LevelProperties : MonoBehaviour
 {
     public byte levelNumber = 1;
 
-    private AudioSource _as;
+    public AudioSource AudioSource { private set; get; }
 
     void Start()
     {
         StaticClass.currentLevel = levelNumber;
-        _as = GetComponent<AudioSource>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         if (LagGlobalTimeScale.pause == true)
         {
-            _as.Pause();
+            AudioSource.Pause();
         }
         else
         {
-            _as.UnPause();
+            AudioSource.UnPause();
         }
     }
 }

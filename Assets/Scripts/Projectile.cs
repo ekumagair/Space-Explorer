@@ -9,17 +9,17 @@ public class Projectile : MonoBehaviour
     public bool vertical = false;
     public bool belongsToPlayer = false;
 
-    private float mult = 1.0f;
+    private float _speedFactor = 1.0f;
 
     void Awake()
     {
         if (belongsToPlayer == false)
         {
-            mult = StaticClass.enemySpeedMult;
+            _speedFactor = StaticClass.enemySpeedMult;
         }
         else
         {
-            mult = 1.0f;
+            _speedFactor = 1.0f;
         }
 
         StartCoroutine(Move());
@@ -31,11 +31,11 @@ public class Projectile : MonoBehaviour
 
         if (vertical == false)
         {
-            transform.Translate(transform.right * speed * mult * direction);
+            transform.Translate(transform.right * speed * _speedFactor * direction);
         }
         else
         {
-            transform.Translate(transform.up * speed * mult * direction);
+            transform.Translate(transform.up * speed * _speedFactor * direction);
         }
 
         StartCoroutine(Move());

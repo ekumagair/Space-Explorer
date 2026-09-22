@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class StaticClass
 {
-    // Layers:
+    ////// Layers //////
     // Solid = Solid to everything.
     // SolidPlayer = Only solid to the player.
     // Character = Characters that aren't the player.

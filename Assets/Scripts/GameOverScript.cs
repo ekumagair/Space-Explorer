@@ -8,6 +8,7 @@ public class GameOverScript : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
+
         LagGlobalTimeScale.pause = false;
         PlayerPrefs.SetInt("highScore", StaticClass.highScore);
         PlayerPrefs.Save();

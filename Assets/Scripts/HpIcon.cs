@@ -7,22 +7,22 @@ public class HpIcon : MonoBehaviour
 {
     public int number;
 
-    private Image img;
+    private Image _img;
 
     void Start()
     {
-        img = GetComponent<Image>();
+        _img = GetComponent<Image>();
     }
 
     void Update()
     {
         if (PlayerScript.hp < number)
         {
-            img.enabled = false;
+            _img.enabled = false;
         }
         else
         {
-            img.enabled = true;
+            _img.enabled = true;
         }
     }
 }

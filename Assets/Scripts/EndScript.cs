@@ -8,6 +8,7 @@ public class EndScript : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
+
         LagGlobalTimeScale.pause = false;
         StaticClass.hardMode = true;
         PlayerPrefs.SetInt("highScore", StaticClass.highScore);

@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    private GameObject player;
+    private GameObject _player;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        if (player.transform.position.x > transform.position.x && StaticClass.passedCheckpoint == false && PlayerScript.completedLevel == false && PlayerScript.isAlive)
+        if (_player.transform.position.x > transform.position.x && StaticClass.passedCheckpoint == false && PlayerScript.completedLevel == false && PlayerScript.isAlive)
         {
             StaticClass.passedCheckpoint = true;
             StaticClass.checkpointX = transform.position.x;

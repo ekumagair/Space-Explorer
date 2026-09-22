@@ -5,6 +5,7 @@ using UnityEngine;
 public class LagGlobalTimeScale : MonoBehaviour
 {
     public static bool pause = false;
+
     private AudioSource _as;
 
     void Start()

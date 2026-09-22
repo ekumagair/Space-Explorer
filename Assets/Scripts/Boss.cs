@@ -7,25 +7,24 @@ public class Boss : MonoBehaviour
     public int direction = -1;
     public GameObject explosion;
     public GameObject win;
-    private GameObject player;
-
-    private bool started = false;
     public GameObject shot;
     public GameObject shotSound;
     public GameObject deathSound;
-
     public float fireInterval = 1f;
+
+    private GameObject _player;
+    private bool _started = false;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(IsActive());
-        started = false;
+        _started = false;
     }
 
     void Update()
     {
-        if (started == true)
+        if (_started == true)
         {
             if (direction == -1 && transform.position.y < -3)
             {
@@ -41,7 +40,7 @@ public class Boss : MonoBehaviour
             if (GetComponent<EnemyHealth>().health <= 0)
             {
                 Instantiate(explosion, transform.position, transform.rotation);
-                Instantiate(win, player.transform.position, player.transform.rotation);
+                Instantiate(win, _player.transform.position, _player.transform.rotation);
                 Instantiate(deathSound, transform.position, transform.rotation);
                 Destroy(gameObject);
             }
@@ -54,7 +53,7 @@ public class Boss : MonoBehaviour
 
         StaticClass.lagObjs += 1;
         StartCoroutine(Shoot());
-        started = true;
+        _started = true;
     }
 
     private IEnumerator Shoot()

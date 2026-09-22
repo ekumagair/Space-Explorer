@@ -5,20 +5,19 @@ using UnityEngine;
 public class CausesLag : MonoBehaviour
 {
     private SpriteRenderer _sr;
-    private Color myColor;
-    private float a;
-
-    private bool added = false;
+    private Color _myColor;
+    private float _alpha;
+    private bool _added = false;
 
     void Awake()
     {
         _sr = GetComponent<SpriteRenderer>();
-        added = false;
+        _added = false;
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "MainCamera" && added == false)
+        if (collision.gameObject.tag == "MainCamera" && _added == false)
         {
             StaticClass.lagObjs++;
 
@@ -27,7 +26,7 @@ public class CausesLag : MonoBehaviour
                 Debug.Log(StaticClass.lagObjs);
             }
 
-            added = true;
+            _added = true;
         }
         else if (collision.gameObject.tag == "BarrierLeft" && tag != "Player")
         {
@@ -49,46 +48,46 @@ public class CausesLag : MonoBehaviour
         {
             if (Random.Range(0, 4) == 0)
             {
-                a = Random.Range(0.6f, 1f);
+                _alpha = Random.Range(0.6f, 1f);
             }
             else
             {
-                a = 0f;
+                _alpha = 0f;
             }
 
-            myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, a);
+            _myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, _alpha);
         }
         else if (StaticClass.lagLevel == 2)
         {
             if (Random.Range(0, 5) == 0)
             {
-                a = Random.Range(0.25f, 1f);
+                _alpha = Random.Range(0.25f, 1f);
             }
             else
             {
-                a = 0f;
+                _alpha = 0f;
             }
 
-            myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, a);
+            _myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, _alpha);
         }
         else if (StaticClass.lagLevel == 3)
         {
             if (Random.Range(0, 6) == 0)
             {
-                a = Random.Range(0f, 1f);
+                _alpha = Random.Range(0f, 1f);
             }
             else
             {
-                a = 0f;
+                _alpha = 0f;
             }
 
-            myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, a);
+            _myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, _alpha);
         }
         else
         {
-            myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, 1);
+            _myColor = new Color(_sr.color.r, _sr.color.g, _sr.color.b, 1);
         }
 
-        _sr.color = myColor;
+        _sr.color = _myColor;
     }
 }

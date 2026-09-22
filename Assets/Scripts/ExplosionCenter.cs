@@ -6,7 +6,7 @@ public class ExplosionCenter : MonoBehaviour
 {
     public GameObject explosion;
 
-    private void Awake()
+    void Awake()
     {
         var e1 = Instantiate(explosion, transform.position, transform.rotation);
         e1.GetComponent<Explosion>().directionX = 1;

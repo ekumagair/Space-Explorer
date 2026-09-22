@@ -6,11 +6,12 @@ public class EnemyFly : MonoBehaviour
 {
     public float speed;
     public float offsetY = -0.5f;
-    private bool active = false;
+
+    private bool _active = false;
 
     void Start()
     {
-        active = false;
+        _active = false;
         transform.Translate(new Vector3(0, offsetY, 0));
     }
 
@@ -18,7 +19,7 @@ public class EnemyFly : MonoBehaviour
     {
         if (collision.gameObject.tag == "MainCamera")
         {
-            active = true;
+            _active = true;
         }
         else if (collision.gameObject.tag == "BarrierLeft")
         {
@@ -28,7 +29,7 @@ public class EnemyFly : MonoBehaviour
 
     void Update()
     {
-        if (active)
+        if (_active)
         {
             transform.Translate(-transform.right * speed * StaticClass.enemySpeedMult * Time.deltaTime);
         }

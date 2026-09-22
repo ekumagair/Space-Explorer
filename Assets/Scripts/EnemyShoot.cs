@@ -12,14 +12,14 @@ public class EnemyShoot : MonoBehaviour
     public GameObject shot;
     public GameObject shotSound;
 
-    private EnemyWalk walkScript;
+    private EnemyWalk _walkScript;
     private Animator _animator;
 
     void Start()
     {
         if (GetComponent<EnemyWalk>() != null)
         {
-            walkScript = GetComponent<EnemyWalk>();
+            _walkScript = GetComponent<EnemyWalk>();
         }
         if (GetComponent<Animator>() != null)
         {
@@ -48,9 +48,9 @@ public class EnemyShoot : MonoBehaviour
 
         if (alwaysShootDown == false)
         {
-            if (walkScript != null)
+            if (_walkScript != null)
             {
-                shotI.GetComponent<Projectile>().direction = walkScript.direction;
+                shotI.GetComponent<Projectile>().direction = _walkScript.direction;
             }
             else
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundObject : MonoBehaviour
 {
-    private void Awake()
+    void Awake()
     {
         Destroy(gameObject, GetComponent<AudioSource>().clip.length);
     }

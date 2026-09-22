@@ -9,13 +9,15 @@ public class Flag : MonoBehaviour
     public Sprite touched;
     public bool playSound;
 
-    private GameObject levelP;
+    private LevelProperties _levelProperties;
     private SpriteRenderer _sr;
+    private AudioSource _as;
 
     void Start()
     {
         _sr = GetComponent<SpriteRenderer>();
-        levelP = GameObject.FindGameObjectWithTag("LevelProperties");
+        _levelProperties = GameObject.FindGameObjectWithTag("LevelProperties").GetComponent<LevelProperties>();
+        _as = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,6 +34,7 @@ public class Flag : MonoBehaviour
         StaticClass.passedCheckpoint = false;
         StaticClass.checkpointX = 0;
         StaticClass.checkpointY = 0;
+
         PlayerPrefs.SetInt("level", StaticClass.currentLevel);
         PlayerPrefs.SetInt("score", StaticClass.score);
         PlayerPrefs.SetInt("highScore", StaticClass.highScore);
@@ -47,10 +50,10 @@ public class Flag : MonoBehaviour
         }
         if (playSound == true)
         {
-            GetComponent<AudioSource>().Play();
+            _as.Play();
         }
 
-        levelP.GetComponent<AudioSource>().mute = true;
+        _levelProperties.AudioSource.mute = true;
 
         GameObject[] enemyShot;
         enemyShot = GameObject.FindGameObjectsWithTag("EnemyShot");

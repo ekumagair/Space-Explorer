@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class FlashText : MonoBehaviour
 {
     public float time;
-    private Text txt;
+
+    private Text _text;
 
     void Start()
     {
-        txt = GetComponent<Text>();
+        _text = GetComponent<Text>();
         StartCoroutine(Flash(time));
     }
 
@@ -18,7 +19,7 @@ public class FlashText : MonoBehaviour
     {
         yield return new WaitForSeconds(t);
 
-        txt.enabled = !txt.enabled;
+        _text.enabled = !_text.enabled;
         StartCoroutine(Flash(t));
     }
 }

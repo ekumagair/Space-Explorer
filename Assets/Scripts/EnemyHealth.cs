@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour
     public GameObject deathSoundObj;
     public GameObject damageSoundObj;
 
-    private GameObject lastShot = null;
+    private GameObject _lastShot = null;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +22,7 @@ public class EnemyHealth : MonoBehaviour
                 Debug.Log("Hit");
             }
 
-            if (collision.gameObject != lastShot || lastShot == null)
+            if (collision.gameObject != _lastShot || _lastShot == null)
             {
                 if (PlayerScript.weaponUpgrade == 0)
                 {
@@ -45,7 +45,7 @@ public class EnemyHealth : MonoBehaviour
                     Instantiate(damageSoundObj, transform.position, transform.rotation);
                 }
 
-                lastShot = gameObject;
+                _lastShot = gameObject;
             }
         }
     }

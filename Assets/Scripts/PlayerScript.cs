@@ -5,16 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
+    [Header("Controls")]
     public float speedX;
-    private float moveX;
-
     public float jumpTimeDefault;
-    private float jumpTime;
     public float forceYDefault;
+
+    [Header("Collision")]
+    public LayerMask solidMask;
+    public bool isOnGround;
+
+    [Header("Attacks")]
+    public GameObject projectile;
+    public GameObject projectile2;
+
+    [Header("Sounds")]
     public AudioClip jumpSound;
     public AudioClip damageSound;
     public AudioClip defeatSound;
+    public AudioClip fire1;
+    public AudioClip fire2;
+
+    [Header("Effects")]
     public GameObject defeatEffect;
+
+    [Header("Debug Test")]
+    public GameObject lagTest;
 
     public static int weaponUpgrade = 0;
     public static int hp = 3;
@@ -22,30 +37,21 @@ public class PlayerScript : MonoBehaviour
     public static bool isAlive = true;
     public static bool completedLevel = false;
 
-    Rigidbody2D _rb;
-    Collider2D _collider;
-    SpriteRenderer _sr;
-    Animator _animator;
-    AudioSource _as;
+    private float _moveX;
+    private float _jumpTime;
+    private RaycastHit2D _rayHit;
+    private bool _wallLeft, _wallRight;
+    private bool _hitCeiling = false;
+    private bool _canShoot = true;
 
-    Scene scene;
-    string sceneName;
+    private Scene _scene;
+    private string _sceneName;
 
-    public LayerMask solidMask;
-
-    public bool isOnGround;
-    RaycastHit2D rayHit;
-
-    bool wallLeft, wallRight;
-    bool hitCeiling = false;
-
-    public GameObject projectile;
-    public GameObject lagTest;
-    bool canShoot = true;
-
-    public AudioClip fire1;
-    public GameObject projectile2;
-    public AudioClip fire2;
+    private Rigidbody2D _rb;
+    private Collider2D _collider;
+    private SpriteRenderer _sr;
+    private Animator _animator;
+    private AudioSource _as;
 
     void Start()
     {
@@ -59,14 +65,14 @@ public class PlayerScript : MonoBehaviour
         invulnerability = false;
         _collider.enabled = true;
         _sr.enabled = true;
-        canShoot = true;
+        _canShoot = true;
         completedLevel = false;
-        hitCeiling = false;
+        _hitCeiling = false;
         isAlive = true;
         hp = 3;
 
-        scene = SceneManager.GetActiveScene();
-        sceneName = scene.name;
+        _scene = SceneManager.GetActiveScene();
+        _sceneName = _scene.name;
 
         if (StaticClass.passedCheckpoint == true)
         {
@@ -86,64 +92,62 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // Movement
-
         if (isAlive == true && completedLevel == false && Time.timeScale > 0)
         {
-            moveX = Input.GetAxisRaw("Horizontal") * speedX * Time.deltaTime;
+            _moveX = Input.GetAxisRaw("Horizontal") * speedX * Time.deltaTime;
         }
         else
         {
-            moveX = 0;
+            _moveX = 0;
             _animator.SetBool("MovingX", false);
         }
 
-        rayHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x * 0.52f, _collider.bounds.size.y * 0.925f), 0, transform.right, 0.4f, solidMask);
+        _rayHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x * 0.52f, _collider.bounds.size.y * 0.925f), 0, transform.right, 0.4f, solidMask);
 
-        if (rayHit.collider != null)
+        if (_rayHit.collider != null)
         {
-            wallRight = true;
+            _wallRight = true;
         }
         else
         {
-            wallRight = false;
+            _wallRight = false;
         }
 
-        rayHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x * 0.52f, _collider.bounds.size.y * 0.925f), 0, -transform.right, 0.4f, solidMask);
+        _rayHit = Physics2D.BoxCast(transform.position, new Vector2(_collider.bounds.size.x * 0.52f, _collider.bounds.size.y * 0.925f), 0, -transform.right, 0.4f, solidMask);
 
-        if (rayHit.collider != null)
+        if (_rayHit.collider != null)
         {
-            wallLeft = true;
+            _wallLeft = true;
         }
         else
         {
-            wallLeft = false;
+            _wallLeft = false;
         }
 
-        if (((moveX > 0 && wallRight == false) || (moveX < 0 && wallLeft == false)) && isAlive && completedLevel == false)
+        if (((_moveX > 0 && _wallRight == false) || (_moveX < 0 && _wallLeft == false)) && isAlive && completedLevel == false)
         {
-            transform.Translate(moveX, 0, 0);
+            transform.Translate(_moveX, 0, 0);
         }
 
-        if (moveX > 0)
+        if (_moveX > 0)
         {
             _sr.flipX = false;
             _animator.SetBool("MovingX", true);
         }
-        else if (moveX == 0)
+        else if (_moveX == 0)
         {
             _animator.SetBool("MovingX", false);
         }
-        else if (moveX < 0)
+        else if (_moveX < 0)
         {
             _sr.flipX = true;
             _animator.SetBool("MovingX", true);
         }
 
         // Jump
+        _rayHit = Physics2D.CircleCast(transform.position, 0.36f, -transform.up, _collider.bounds.size.y * 0.65f, solidMask);
 
-        rayHit = Physics2D.CircleCast(transform.position, 0.36f, -transform.up, _collider.bounds.size.y * 0.65f, solidMask);
-
-        if (rayHit.collider != null)
+        if (_rayHit.collider != null)
         {
             isOnGround = true;
         }
@@ -152,57 +156,56 @@ public class PlayerScript : MonoBehaviour
             isOnGround = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.X) && isOnGround && isAlive && completedLevel == false && hitCeiling == false && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.X) && isOnGround && isAlive && completedLevel == false && _hitCeiling == false && Time.timeScale > 0)
         {
-            jumpTime = jumpTimeDefault;
+            _jumpTime = jumpTimeDefault;
             Sound(jumpSound);
         }
 
         _animator.SetBool("OnGround", isOnGround);
 
         // Hit ceiling
+        _rayHit = Physics2D.CircleCast(transform.position, 0.365f, transform.up, _collider.bounds.size.y * 0.33f, solidMask);
 
-        rayHit = Physics2D.CircleCast(transform.position, 0.365f, transform.up, _collider.bounds.size.y * 0.33f, solidMask);
-
-        if (rayHit.collider != null)
+        if (_rayHit.collider != null)
         {
-            hitCeiling = true;
+            _hitCeiling = true;
 
             //_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Abs(_rb.velocity.y) * -1f);
             _rb.velocity = new Vector2(_rb.velocity.x, -6f);
         }
         else if (Input.GetKey(KeyCode.X) == false)
         {
-            hitCeiling = false;
+            _hitCeiling = false;
         }
 
         // Shoot
-
-        if (Input.GetKeyDown(KeyCode.Z) && canShoot && isAlive && completedLevel == false && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.Z) && _canShoot && isAlive && completedLevel == false && Time.timeScale > 0)
         {
             StartCoroutine(Shoot());
         }
 
         // Test
-
-        if (Input.GetKeyDown(KeyCode.G) && StaticClass.debug == true)
+        if (StaticClass.debug)
         {
-            Instantiate(lagTest, gameObject.transform.position, gameObject.transform.rotation);
-        }
-        if (Input.GetKeyDown(KeyCode.H) && StaticClass.debug == true)
-        {
-            if (weaponUpgrade == 0)
+            if (Input.GetKeyDown(KeyCode.G))
             {
-                weaponUpgrade = 1;
+                Instantiate(lagTest, gameObject.transform.position, gameObject.transform.rotation);
             }
-            else
+            if (Input.GetKeyDown(KeyCode.H))
             {
-                weaponUpgrade = 0;
+                if (weaponUpgrade == 0)
+                {
+                    weaponUpgrade = 1;
+                }
+                else
+                {
+                    weaponUpgrade = 0;
+                }
             }
         }
 
         // HP
-
         if (hp <= 0 && isAlive == true && completedLevel == false && Time.timeScale > 0)
         {
             StartCoroutine(Defeat());
@@ -219,7 +222,6 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Score
-
         if (StaticClass.score > 999999)
         {
             StaticClass.score = 999999;
@@ -230,30 +232,32 @@ public class PlayerScript : MonoBehaviour
             StaticClass.highScore = StaticClass.score;
         }
 
-        // Quit
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Quit while paused
+        if (Time.timeScale == 0.0f)
         {
-            SceneManager.LoadScene("SpaceTitle");
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                SceneManager.LoadScene("SpaceTitle");
+            }
         }
     }
 
     void FixedUpdate()
     {
-        jumpTime -= Time.deltaTime;
+        _jumpTime -= Time.deltaTime;
 
-        if (jumpTime > 0)
+        if (_jumpTime > 0)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, forceYDefault);
 
-            if (Input.GetKey(KeyCode.X) == false || hitCeiling == true)
+            if (Input.GetKey(KeyCode.X) == false || _hitCeiling == true)
             {
-                jumpTime = 0;
+                _jumpTime = 0;
             }
         }
     }
 
-    IEnumerator Shoot()
+    private IEnumerator Shoot()
     {
         GameObject pr;
 
@@ -280,16 +284,16 @@ public class PlayerScript : MonoBehaviour
         }
 
         _animator.SetBool("Shooting", true);
-        canShoot = false;
+        _canShoot = false;
 
         yield return new WaitForSeconds(0.4f);
 
         _animator.SetBool("Shooting", false);
 
-        canShoot = true;
+        _canShoot = true;
     }
 
-    void Sound(AudioClip clip)
+    private void Sound(AudioClip clip)
     {
         _as.clip = clip;
         _as.Play();
@@ -369,7 +373,7 @@ public class PlayerScript : MonoBehaviour
         _rb.gravityScale = 0;
         _rb.velocity = new Vector2(0, 0);
         weaponUpgrade = 0;
-        moveX = 0;
+        _moveX = 0;
 
         StaticClass.lives--;
 
@@ -384,7 +388,7 @@ public class PlayerScript : MonoBehaviour
 
         if (StaticClass.lives > 0)
         {
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene(_sceneName);
         }
         else
         {
